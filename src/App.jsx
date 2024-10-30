@@ -1,6 +1,10 @@
 import 'bulma/css/bulma.css';
 import './App.scss';
 
+import { useState } from 'react';
+import classNames from 'classnames';
+import { GoodList } from './components/GoodList/GoodList';
+
 export const goodsFromServer = [
   'Dumplings',
   'Carrot',
@@ -14,33 +18,67 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-export const App = () => (
-  <div className="section content">
-    <div className="buttons">
-      <button type="button" className="button is-info is-light">
-        Sort alphabetically
-      </button>
+export const App = () => {
+  const [selectedGoods, setSelectedGoods] = useState('');
 
-      <button type="button" className="button is-success is-light">
-        Sort by length
-      </button>
+  const visibleGoods = [...goodsFromServer];
 
-      <button type="button" className="button is-warning is-light">
-        Reverse
-      </button>
+  visibleGoods.sort((good1, good2) => {
+    switch (selectedGoods) {
+      case 'button is-info':
+        return good1.localeCompare(good2);
+      case 'button is-success':
+        return good1.length - good2.length;
+      default:
+        return 0;
+    }
+  });
 
-      <button type="button" className="button is-danger is-light">
-        Reset
-      </button>
+  return (
+    <div className="section content">
+      <div className="buttons">
+        <button
+          type="button"
+          className={classNames('button is-info', {
+            'is-light': selectedGoods !== 'button is-info',
+          })}
+          onClick={() => setSelectedGoods('button is-info')}
+        >
+          Sort alphabetically
+        </button>
+
+        <button
+          type="button"
+          className={classNames('button is-success', {
+            'is-light': selectedGoods !== 'button is-success',
+          })}
+          onClick={() => setSelectedGoods('button is-success')}
+        >
+          Sort by length
+        </button>
+
+        <button
+          type="button"
+          className={classNames('button is-warning', {
+            'is-light': selectedGoods !== 'button is-warning',
+          })}
+          onClick={() => setSelectedGoods('button is-warning')}
+        >
+          Reverse
+        </button>
+
+        {selectedGoods && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => setSelectedGoods('')}
+          >
+            Reset
+          </button>
+        )}
+      </div>
+
+      <GoodList goods={visibleGoods} />
     </div>
-
-    <ul>
-      <li data-cy="Good">Dumplings</li>
-      <li data-cy="Good">Carrot</li>
-      <li data-cy="Good">Eggs</li>
-      <li data-cy="Good">Ice cream</li>
-      <li data-cy="Good">Apple</li>
-      <li data-cy="Good">...</li>
-    </ul>
-  </div>
-);
+  );
+};
