@@ -65,10 +65,10 @@ export const App = () => {
         <button
           type="button"
           className={classNames('button is-warning', {
-            'is-light': selectedGoods !== 'button is-warning',
+            'is-light': !selectedGoods,
           })}
           onClick={() => {
-            setSelectedGoods('button is-warning');
+            setSelectedGoods('reversed');
             setReversed(!reversed);
           }}
         >
