@@ -64,18 +64,15 @@ export const App = () => {
 
         <button
           type="button"
-          className={classNames('button is-warning', {
-            'is-light': !selectedGoods,
-          })}
+          className={`button is-warning ${reversed ? '' : 'is-light'}`}
           onClick={() => {
-            setSelectedGoods('reversed');
             setReversed(!reversed);
           }}
         >
           Reverse
         </button>
 
-        {selectedGoods && (
+        {(selectedGoods || reversed) && (
           <button
             type="button"
             className="button is-danger is-light"
