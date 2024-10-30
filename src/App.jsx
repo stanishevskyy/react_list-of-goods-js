@@ -20,6 +20,7 @@ export const goodsFromServer = [
 
 export const App = () => {
   const [selectedGoods, setSelectedGoods] = useState('');
+  const [reversed, setReversed] = useState(false);
 
   const visibleGoods = [...goodsFromServer];
 
@@ -33,6 +34,10 @@ export const App = () => {
         return 0;
     }
   });
+
+  if (reversed) {
+    visibleGoods.reverse();
+  }
 
   return (
     <div className="section content">
@@ -62,7 +67,10 @@ export const App = () => {
           className={classNames('button is-warning', {
             'is-light': selectedGoods !== 'button is-warning',
           })}
-          onClick={() => setSelectedGoods('button is-warning')}
+          onClick={() => {
+            setSelectedGoods('button is-warning');
+            setReversed(!reversed);
+          }}
         >
           Reverse
         </button>
@@ -71,7 +79,10 @@ export const App = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => setSelectedGoods('')}
+            onClick={() => {
+              setSelectedGoods('');
+              setReversed(false);
+            }}
           >
             Reset
           </button>
